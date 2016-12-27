@@ -15,5 +15,5 @@ class Camera:
                               1 - (col / (self.image_ncols / 2)),
                               self.focal_length])
         starting_point = np.array([0, 0, 0])
-        ray = Ray(direction, starting_point)
+        ray = Ray(starting_point, direction)
         return ray

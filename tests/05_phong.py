@@ -17,7 +17,6 @@ v = np.array([0,0,0])
 scene1=Scene()
 scene1.add_light(l)
 i1=Intersection(p, n, s);
-print(phong_illuminate(scene1, i1, v))
 assert(np.array_equal(phong_illuminate(scene1, i1, v), [0,0,0.15]))
 
 s = Sphere([0,0,3], 1, Material(np.array([0.1,0.2,0.3]), 0., 0.2, 0.3, 0.4, 0.5));
