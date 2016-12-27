@@ -13,7 +13,6 @@ def is_parallel(v1, v2):
     return ((v1.dot(v2) / (la.norm(v1) * la.norm(v2))) - 1.) < 0.01
 
 s = Sphere(np.array([0,0,3]), 1, Material(np.array([0,0,1.]), 1, 1, 1, 1, 1))
-print(type(s))
 
 r = Ray(np.array([0,0,0]), np.array([0,0,1]))
 i = intersect(s, r)
