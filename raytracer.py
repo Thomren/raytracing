@@ -7,7 +7,8 @@ import numpy as np
 
 
 def trace_ray(ray, scene):
-    """Return the color of the first intersection encountered by ray in scene"""
+    """Return the color of the first intersection encountered by ray in
+    scene"""
     dmin = -1
     imin = None
     for obj in scene.objects:
