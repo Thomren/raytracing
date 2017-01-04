@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from ray import *
-from intersection import *
 import numpy as np
 from numpy import linalg as la
 
@@ -35,25 +34,21 @@ def phong_illuminate(scene, intersection, viewer):
     # take
     v = normalize(viewer - intersection.position)
     # v is the direction pointing towards the viewer
-    i = [0.] * nblights  # stores the illuminations calculated for each light
-    res = np.array([float(ka)] * 3)
+    i = [ka] * nblights  # stores the illuminations calculated for each light
+    res = np.array([0., 0., 0.])
     for k in range(nblights):
-        if n.dot(l[k]) > 0 and not shadow_test(scene.lights[k],
-                                               scene, intersection):
-            i[k] += kd * l[k].dot(n) + ks * max(0, r[k].dot(v))**alpha
-            res += i[k] * scene.lights[k].color
-    return res * m.color
+            i[k] += kd * max(0, l[k].dot(n)) + ks * max(0, r[k].dot(v))**alpha
+            res += i[k] * m.color * scene.lights[k].color
+    return res
 
 
 def shadow_test(light, scene, intersection):
     """Return True if the intersection if hidden by another object, False
     else"""
-    pi = intersection.position
-    pl = light.position
-    ray = Ray(intersection.position, pl - pi)
+    ray = Ray(intersection.position, light.position - intersection.position)
     for obj in scene.objects:
         if obj != intersection.object:
             i = intersect(obj, ray)
-            if i is not None and la.norm(i.position - pi) < la.norm(pl - pi):
+            if i is not None:
                 return True
     return False
