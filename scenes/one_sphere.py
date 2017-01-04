@@ -12,9 +12,9 @@ import matplotlib.image as mpli
 
 # Definition of the objects
 s = Sphere([0, 0, 3], 1, Material(
-    np.array([0, 0, 1]), 2, 0.2, 0.8, 0.4, 0.5))
+    np.array([0, 0, 1]), 0.4, 0.2, 0.8, 10, 0.5))
 # Definition of the lights
-l = Spotlight([0, 0, 0], np.array([1, 1, 1]))
+l = Spotlight([1, 1, 0], np.array([1, 1, 1]))
 # Creation of the scene
 scene = Scene()
 scene.add_light(l)

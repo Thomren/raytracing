@@ -26,14 +26,16 @@ def intersect(object, ray):
             d1 = -(l.dot(o - c)) - np.sqrt(delta)
             d2 = -(l.dot(o - c)) + np.sqrt(delta)
             # Algebraic distance to the starting point of the intersection(s)
-            t = [d1, d2]
-            t = [t[i] for i in range(2) if t[i] >= 0]
-            # Keep only the intersection ahead of the starting point of the ray
-            if len(t) == 0:
-                return None  # No intersection ahed of the starting point
+            if d1 < 0 and d2 < 0:
+                return None  # No intersection ahead of the starting point
             else:
-                d = min(t)  # First intersection from the starting point
-                position = o + d * l
-                normal = (position - c) / la.norm(position - c)
+                if d1 * d2 >= 0:  # Two intersections ahead
+                    d = min(d1, d2)
+                    position = o + d * l
+                    normal = (position - c) / la.norm(position - c)
+                elif d1 * d2 < 0:  # Starting point in the sphere
+                    d = max(d1, d2)
+                    position = o + d * l
+                    normal = - (position - c) / la.norm(position - c)
                 intersection = Intersection(position, normal, object)
                 return intersection

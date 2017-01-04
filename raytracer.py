@@ -22,7 +22,7 @@ def trace_ray(ray, scene):
         color = phong_illuminate(scene, imin, ray.starting_point)
     else:
         color = [0., 0., 0.]
-    np.clip(color, 0., 1.)
+    color = np.clip(color, 0., 1.)
     return color
 
 

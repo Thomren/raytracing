@@ -22,7 +22,7 @@ def phong_illuminate(scene, intersection, viewer):
     nblights = len(scene.lights)
     ks, kd, ka, alpha = m.specular, m.diffuse, m.ambiant, m.shininess
     # Constants of specular, diffuse and ambient reflection, and shininess
-    # constant
+    # constants
     n = normalize(intersection.normal)
     l = [normalize(scene.lights[i].position -
                    intersection.position) for i in range(nblights)]
@@ -33,10 +33,15 @@ def phong_illuminate(scene, intersection, viewer):
     # take
     v = normalize(viewer - intersection.position)
     # v is the direction pointing towards the viewer
-    ip = ka  # ip stores the illumination calculated by the Phong model
-    for k in range(nblights):
-        ip += kd * (l[k].dot(n)) + ks * (r[k].dot(v))**(alpha)
+    i = [ka] * nblights  # stores the illuminations calculated for each light
     res = np.array([0., 0., 0.])
     for k in range(nblights):
-        res += m.color * scene.lights[k].color
-    return ip * res
+        if n.dot(l[k]) > 0:
+            diffuse = l[k].dot(n)
+            specular = r[k].dot(v)
+            if diffuse >= 0:
+                i[k] += kd * diffuse
+            if specular >= 0:
+                i[k] += ks * (specular)**alpha
+            res += i[k] * m.color * scene.lights[k].color
+    return res
