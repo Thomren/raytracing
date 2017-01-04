@@ -11,14 +11,19 @@ import numpy as np
 import matplotlib.image as mpli
 
 # Definition of the objects
-s = Sphere([0, 0, 3], 1, Material(
-    np.array([0, 0, 1]), 2, 0.2, 0.8, 0.4, 0.5))
+s1 = Sphere([0, 0, 3], 1, Material(
+    np.array([0, 0, 1]), 0.5, 0.2, 0.8, 0.4, 0.5))
+s2 = Sphere([0, 0, 4], 3, Material(np.array([1, 0, 0]), 1, 0.2, 0.3, 10, 0.5))
+background = Sphere([0, 0, 0], 10, Material(
+    np.array([1, 1, 1]), 1, 0, 0, 0, 0))
 # Definition of the lights
 l = Spotlight([0, 0, 0], np.array([1, 1, 1]))
 # Creation of the scene
 scene = Scene()
 scene.add_light(l)
-scene.add_object(s)
+scene.add_object(s1)
+# scene.add_object(s2)
+scene.add_object(background)
 # Creation of the camera
 camera = Camera(200, 200, 1)
 
