@@ -26,7 +26,7 @@ def intersect(object, ray):
             d1 = -(l.dot(o - c)) - np.sqrt(delta)
             d2 = -(l.dot(o - c)) + np.sqrt(delta)
             # Algebraic distance to the starting point of the intersection(s)
-            if d1 < 0 and d2 < 0:
+            if d1 <= 1e-6 and d2 <= 1e-6:
                 return None  # No intersection ahead of the starting point
             else:
                 if d1 * d2 >= 0:  # Two intersections ahead

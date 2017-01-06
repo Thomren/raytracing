@@ -6,9 +6,8 @@ from numpy import linalg as la
 import numpy as np
 
 
-def trace_ray(ray, scene):
-    """Return the color of the first intersection encountered by ray in
-    scene"""
+def trace_ray(ray, scene, n=10):
+    """Return the color of ray after up to n reflexions in scene"""
     dmin = -1
     imin = None
     for obj in scene.objects:
@@ -20,9 +19,15 @@ def trace_ray(ray, scene):
                 dmin = d
     if imin is not None:
         color = phong_illuminate(scene, imin, ray.starting_point)
+        color = np.clip(color, 0., 1.)
+        if n > 0:
+            r = imin.object.material.reflection
+            indir = ray.direction
+            refldir = indir - 2 * (indir.dot(imin.normal)) * imin.normal
+            reflected = Ray(imin.position, refldir)
+            return color * (1 - r) + trace_ray(reflected, scene, n - 1) * r
     else:
-        color = [0., 0., 0.]
-    color = np.clip(color, 0., 1.)
+        color = np.array([0., 0., 0.])
     return color
 
 
