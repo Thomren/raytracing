@@ -4,6 +4,11 @@ from numpy import linalg as la
 from scene import *
 
 
+def normalize(vect):
+    """Normalize the vector vect"""
+    return vect / la.norm(vect)
+
+
 class Intersection:
 
     def __init__(self, position, normal, object):
@@ -39,3 +44,30 @@ def intersect(object, ray):
                     normal = - (position - c) / la.norm(position - c)
                 intersection = Intersection(position, normal, object)
                 return intersection
+    if type(object) is Triangle:
+        d = ray.direction / la.norm(ray.direction)
+        o = ray.starting_point
+        e1 = object.v1 - object.v0
+        e2 = object.v2 - object.v0
+        # Moller-Trumbore intersection algorithm
+        p = np.cross(d, e2)
+        det = e1.dot(p)
+        if abs(det) < 1e-6:
+            return None
+        inv_det = 1. / det
+        T = o - object.v0
+        u = T.dot(p) * inv_det
+        if u < 0 or u > 1:
+            return None
+        q = np.cross(T, e1)
+        v = d.dot(q) * inv_det
+        if v < 0 or u + v > 1:
+            return None
+        t = e2.dot(q) * inv_det
+        if t > 1e-6:
+            position = o + t * d
+            normal = normalize(np.cross(e1, e2))
+            if d.dot(normal) > 0:
+                normal = - normal
+            intersection = Intersection(position, normal, object)
+            return intersection

@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
-
-
-class Sphere:
-
-    def __init__(self, center, rayon, material):
-        self.center = center
-        self.rayon = rayon
-        self.material = material
+import numpy as np
 
 
 class Scene:
@@ -32,3 +25,20 @@ class Material:
         self.specular = specular
         self.shininess = shininess
         self.reflection = reflection
+
+
+class Sphere:
+
+    def __init__(self, center, rayon, material):
+        self.center = np.array(center)
+        self.rayon = rayon
+        self.material = material
+
+
+class Triangle:
+
+    def __init__(self, v0, v1, v2, material):
+        self.v0 = np.array(v0)
+        self.v1 = np.array(v1)
+        self.v2 = np.array(v2)
+        self.material = material
