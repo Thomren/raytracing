@@ -4,6 +4,7 @@ from light import *
 from camera import *
 from numpy import linalg as la
 import numpy as np
+import multiprocessing as mp
 
 
 def trace_ray(ray, scene, n=10):
@@ -30,14 +31,17 @@ def trace_ray(ray, scene, n=10):
         color = np.array([0., 0., 0.])
     return color
 
+def pixel_render(i, j, camera, scene):
+        r = camera.ray_at(i, j)
+        return trace_ray(r, scene)
 
 def raytracer_render(camera, scene):
     """Return a tab representing the rendered image of scene from camera"""
     nrows = camera.image_nrows
     ncols = camera.image_ncols
     res = np.zeros((nrows, ncols, 3))
+    pool = mp.Pool()
     for i in range(nrows):
-        for j in range(ncols):
-            r = camera.ray_at(i, j)
-            res[i, j] = trace_ray(r, scene)
+        res[i, :, :] = pool.starmap(pixel_render, [(i, j, camera, scene) for j in range(ncols)])
+    pool.close()
     return res
