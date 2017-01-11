@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from ray import *
 from intersection import *
+from light import *
 import numpy as np
 from numpy import linalg as la
 
@@ -14,7 +15,10 @@ class Spotlight:
 
 def normalize(vect):
     """Normalize the vector vect"""
-    return vect / la.norm(vect)
+    if la.norm(vect):
+        return vect / la.norm(vect)
+    else:
+        return vect
 
 
 def phong_illuminate(scene, intersection, viewer):
