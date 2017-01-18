@@ -36,5 +36,5 @@ if __name__ == "__main__":
     print('Rendering in progress')
     picture = raytracer_render(camera, scene)
     print('Saving the image')
-    mpli.imsave("reflexion.png", picture)
+    mpli.imsave("reflexionbis.png", picture)
     print('Image saved')

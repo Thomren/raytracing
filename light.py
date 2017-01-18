@@ -44,7 +44,7 @@ def phong_illuminate(scene, intersection, viewer):
     for k in range(nblights):
         if n.dot(l[k]) > 0 and not shadow_test(scene.lights[k],
                                                scene, intersection):
-            i[k] += kd * l[k].dot(n) + ks * max(0, r[k].dot(v))**alpha
+            i[k] += kd * l[k].dot(n) + ks * (max(0, r[k].dot(v)))**alpha
             res += i[k] * scene.lights[k].color
     return res * m.color
 

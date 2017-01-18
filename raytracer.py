@@ -7,7 +7,7 @@ import numpy as np
 import multiprocessing as mp
 
 
-def trace_ray(ray, scene, n=10):
+def trace_ray(ray, scene, n=10, clip=True):
     """Return the color of ray after up to n reflexions in scene"""
     dmin = -1
     imin = None
@@ -20,20 +20,25 @@ def trace_ray(ray, scene, n=10):
                 dmin = d
     if imin is not None:
         color = phong_illuminate(scene, imin, ray.starting_point)
-        color = np.clip(color, 0., 1.)
+        r = imin.object.material.reflection
         if n > 0:
-            r = imin.object.material.reflection
             indir = ray.direction
             refldir = indir - 2 * (indir.dot(imin.normal)) * imin.normal
             reflected = Ray(imin.position, refldir)
-            return color * (1 - r) + trace_ray(reflected, scene, n - 1) * r
+            res = color * (1 - r) + trace_ray(reflected,
+                                              scene, n - 1, False) * r
+            if clip:
+                res = np.clip(res, 0., 1.)
+            return res
     else:
         color = np.array([0., 0., 0.])
     return color
 
+
 def pixel_render(i, j, camera, scene):
         r = camera.ray_at(i, j)
         return trace_ray(r, scene)
+
 
 def raytracer_render(camera, scene):
     """Return a tab representing the rendered image of scene from camera"""
