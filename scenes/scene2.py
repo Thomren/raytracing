@@ -43,12 +43,12 @@ scene.add_object(sl)
 
 scene.add_object(t)
 # Creation of the camera
-camera = Camera(500, 500, 1)
+camera = Camera(100, 100, 1)
 
 # Rendering
 if __name__ == "__main__":
     print('Rendering in progress')
     picture = raytracer_render(camera, scene)
     print('Saving the image')
-    mpli.imsave("examplewithoutspec.png", picture)
+    mpli.imsave("testmp.png", picture)
     print('Image saved')

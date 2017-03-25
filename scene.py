@@ -42,3 +42,13 @@ class Triangle:
         self.v1 = np.array(v1)
         self.v2 = np.array(v2)
         self.material = material
+
+
+class Plane:
+
+    def __init__(self, v0, v1, v2, v3, material):
+        self.v0 = np.array(v0)
+        self.v1 = np.array(v1)
+        self.v2 = np.array(v2)
+        self.v3 = np.array(v3)
+        self.material = material

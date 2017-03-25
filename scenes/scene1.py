@@ -29,7 +29,7 @@ scene.add_object(s2)
 scene.add_object(background)
 scene.add_object(t)
 # Creation of the camera
-camera = Camera(600, 600, 1)
+camera = Camera(100, 100, 1)
 
 # Rendering
 if __name__ == "__main__":

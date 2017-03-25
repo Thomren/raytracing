@@ -7,7 +7,7 @@ import numpy as np
 import multiprocessing as mp
 
 
-def trace_ray(ray, scene, n=10, clip=True):
+def trace_ray(ray, scene, n=20, clip=True):
     """Return the color of ray after up to n reflexions in scene"""
     dmin = -1
     imin = None
@@ -46,7 +46,7 @@ def raytracer_render(camera, scene):
     ncols = camera.image_ncols
     res = np.zeros((nrows, ncols, 3))
     pool = mp.Pool()
-    for i in range(nrows):
-        res[i, :, :] = pool.starmap(pixel_render, [(i, j, camera, scene) for j in range(ncols)])
+    # Calculate the rendered pixels using multiprocessing and pixel_render
+    res = np.reshape(pool.starmap(pixel_render, [(i, j, camera, scene) for i in range(nrows) for j in range(ncols)]), (nrows, ncols, 3))
     pool.close()
     return res

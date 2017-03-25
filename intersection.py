@@ -44,6 +44,7 @@ def intersect(object, ray):
                     normal = - (position - c) / la.norm(position - c)
                 intersection = Intersection(position, normal, object)
                 return intersection
+
     if type(object) is Triangle:
         d = ray.direction / la.norm(ray.direction)
         o = ray.starting_point

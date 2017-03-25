@@ -59,5 +59,6 @@ def shadow_test(light, scene, intersection):
         if obj != intersection.object:
             i = intersect(obj, ray)
             if i is not None and la.norm(i.position - pi) < la.norm(pl - pi):
+                # verify that i is between intersection and light if it exists
                 return True
     return False
